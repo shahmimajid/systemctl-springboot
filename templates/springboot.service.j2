@@ -1,0 +1,14 @@
+[Unit]
+Description=JetBrains TeamCity
+Requires=network.target
+After=syslog.target network.target
+[Service]
+Type=forking
+EnvironmentFile=/etc/sysconfig/teamcity
+ExecStart={{teamcity.installation_path}}/bin/teamcity-server.sh start
+ExecStop={{teamcity.installation_path}}/bin/teamcity-server.sh stop
+User=teamcity
+PIDFile={{teamcity.installation_path}}/teamcity.pid
+Environment="TEAMCITY_PID_FILE_PATH={{teamcity.installation_path}}/teamcity.pid"
+[Install]
+WantedBy=multi-user.target

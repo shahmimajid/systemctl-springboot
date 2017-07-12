@@ -1,0 +1,8 @@
+- name: TeamCity | Create environment file
+  template: src=teamcity.env.j2 dest=/etc/sysconfig/teamcity
+- name: TeamCity | Create Unit file
+  template: src=teamcity.service.j2 dest=/lib/systemd/system/teamcity.service mode=644
+  notify:
+    - reload systemctl
+- name: TeamCity | Start teamcity
+  service: name=teamcity.service state=started enabled=yes
