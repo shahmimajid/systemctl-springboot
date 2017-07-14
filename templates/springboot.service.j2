@@ -1,14 +1,17 @@
 [Unit]
-Description=JetBrains TeamCity
-Requires=network.target
-After=syslog.target network.target
+Description=SB-{{ app-name }}
+After=local-fs.target remote-fs.target network-online.target nss-lookup.target
+Wants=network-online.target
+
 [Service]
-Type=forking
-EnvironmentFile=/etc/sysconfig/teamcity
-ExecStart={{teamcity.installation_path}}/bin/teamcity-server.sh start
-ExecStop={{teamcity.installation_path}}/bin/teamcity-server.sh stop
-User=teamcity
-PIDFile={{teamcity.installation_path}}/teamcity.pid
-Environment="TEAMCITY_PID_FILE_PATH={{teamcity.installation_path}}/teamcity.pid"
+User=root
+EnvironmentFile={{ SB-env-path }}
+WorkingDirectory={{ SB-working-dir }}
+ExecStart=/usr/bin/java $XMX -jar $PORT {{ SB-jar-file }}
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
 [Install]
 WantedBy=multi-user.target

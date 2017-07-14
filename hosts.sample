@@ -1,0 +1,7 @@
+#Just change hosts.sample to hosts and input your server name under groups
+
+[staging]
+staging.example.com
+
+[dev]
+dev.example.com
